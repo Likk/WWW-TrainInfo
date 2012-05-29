@@ -68,7 +68,7 @@ Creates and returns a new WWW::TrainInfo object.:
 sub new {
   my $class = shift;
   my %args  = @_;
-  my $self  = bless { %args }, $class;
+  my $self  = bless { %args, plugins =>{} }, $class;
   $self->_plugin_load;
   return $self;
 }
@@ -87,7 +87,7 @@ sub is_got {
      $_[0] =~ m{^(0|1)}){
      $self->{is_got} = $_[0];
   }
-  return $self->{is_got};
+  return $self->{is_got} ? 1 : 0;
 }
 
 =head1 METHODS
@@ -102,9 +102,10 @@ sub get_info {
   my $self = shift;
   my $plugins = $self->{load_plugins};
   for my $plugin (@$plugins) {
-    $self->{$plugin}->get_info;
+    $self->{plugins}->{$plugin}->get_info;
   }
-
+  $self->is_got(1);
+  return 1;
 }
 
 =head2 notice
@@ -143,7 +144,7 @@ for my $state (qw/delay stop cancel/) {
     my $records = [];
     for my $plugin (@$plugins) {
       my $method = "get_${state}";
-      my $records_wk = $self->{$plugin}->$method;
+      my $records_wk = $self->{plugins}->{$plugin}->$method;
       push @$records, @$records_wk;
     }
     return $records;
@@ -167,7 +168,7 @@ sub _plugin_load {
   my $self = shift;
   my $plugins = $self->{load_plugins};
   for my $plugin (@$plugins) {
-    $self->{$plugin} = plugin($plugin);
+    $self->{plugins}->{$plugin} = plugin($plugin);
   }
 }
 
