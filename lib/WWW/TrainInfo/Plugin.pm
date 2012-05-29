@@ -18,6 +18,17 @@ WWW::TrainInfo::Plugin is a plugin loader for WWW::TrainInfo
 use strict;
 use warnings;
 use UNIVERSAL::require;
+use WWW::TrainInfo::Util;
+
+our $container = WWW::TrainInfo::Util->instance;
+
+=head1 METHODS
+
+=head2 import
+
+import some plugins.
+
+=cut
 
 sub import {
   my ($class, @opts) = @_;
@@ -26,8 +37,10 @@ sub import {
   my $plugin_loader = sub {
     my $name = shift;
     my $module = "WWW::TrainInfo::Plugin\::$name";
+    _contaier_methods($module);
     $module->require or die $@;
-    return $module->new();
+    my $pkg = $module->new();
+    return $pkg;
   };
 
   {
@@ -36,6 +49,20 @@ sub import {
     *{"${caller}::plugin"} = $plugin_loader;
   }
 
+}
+
+
+sub _contaier_methods {
+  my $module = shift;
+  for my $method_name (@{$container->export}){
+    my $method = $container->$method_name;
+    my $pm = $module. "::". $method_name;
+    {
+      no strict 'refs';       ## no critic
+      no warnings 'redefine'; ## no critic
+      *{ $pm } = sub { $method };
+    }
+  }
 }
 
 =head1 AUTHOR
