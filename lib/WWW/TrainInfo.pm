@@ -75,7 +75,7 @@ sub new {
 
 =head1 ACCESSOR
 
-=head1 is_got
+=head2 is_got
 
 accessor for is_got at local variable.
 
@@ -120,9 +120,9 @@ sub notice {
   return map { $self->{$_}->{records} } @$plugins
 }
 
-=head2 delay
-=head2 stop
-=head2 cancel
+=head2 notice_delay
+=head2 notice_stop
+=head2 notice_cancel
 
 those methods are show-able some information.
 
