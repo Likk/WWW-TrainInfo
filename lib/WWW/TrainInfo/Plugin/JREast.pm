@@ -22,10 +22,9 @@ get any delay, stop and cancel train information.
 use strict;
 use warnings;
 use utf8;
-use Encode;
-use WWW::Mechanize;
+use parent 'WWW::TrainInfo::Plugin::Base';
 use Web::Scraper;
-use Time::Piece;
+use Encode;
 
 our $VERSION = '0.1';
 our $SITE_URL = "http://www.jreast.co.jp/";
@@ -53,23 +52,36 @@ our $AREA_DATA = {
   },
 };
 
-sub new{
+=head1 CONSTRUCTOR AND STARTUP
+
+=head2 new
+
+Creates and returns a new WWW::TrainInfo::Plugin::JREast object.:
+
+=cut
+
+sub new {
   my $class = shift;
-  my %c = @_;
-  my $h = {
-      area            => $c{area}            || [qw(k s t S L)],
-      notify_no_delay => $c{notify_no_delay} || 0,
-      test_news       => $c{test_news}       || ''
-    };
-  my $agent  = delete $c{'agent'} || q{Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0};
-  $h->{mech} = WWW::Mechanize->new( agent=> $agent );
-  bless $h,$class;
+  my $self  = __PACKAGE__->SUPER::new(@_);
+  $self->{area}            ||= [qw(k s t S L)];
+  $self->{notify_no_delay} ||= 0;
+  $self->{test_news}       ||= 0;
+  return $self;
 }
+
+=head1 METHODS
+
+=head2 get_info
+
+read train information.
+
+=cut
 
 sub get_info {
   my $self    = shift;
   my $area   = $self->{area};
   my $mech   = $self->{mech};
+  warn $mech->agent;
   my $records = [];
   for my $row (@$area){
     my $res        = $mech->get("@{[$BASE_URL]}/@{[$AREA_DATA->{$row}->{'sub_url'}]}");
@@ -81,6 +93,63 @@ sub get_info {
   }
   $self->{records} = $records;
 }
+
+=head2 get_delay
+
+show delay information.
+
+=cut
+
+sub get_delay {
+  my $self       = shift;
+  my $records    = $self->{records};
+  my $delay_data = [];
+  for my $record (@$records){
+    if ($record->{delay_flg}){
+      push @$delay_data,$record;
+    }
+  }
+  return $delay_data;
+}
+
+=head2 get_stop
+
+show stop information.
+
+=cut
+
+sub get_stop {
+  my $self      = shift;
+  my $records   = $self->{records};
+  my $stop_data = [];
+
+  for my $record (@$records){
+    if ($record->{stop_flg}){
+      push @$stop_data,$record;
+    }
+  }
+  return $stop_data;
+}
+
+=head2 get_cancel
+
+show cancel information.
+
+=cut
+
+sub get_cancel {
+  my $self        = shift;
+  my $records     = $self->{parsed_records};
+  my $cancel_data = [];
+
+  for my $record (@$records){
+    if ($record->{cancel_flg}){
+      push @$cancel_data,$record;
+    }
+  }
+  return $cancel_data;
+}
+
 
 sub _parse {
   my $self = shift;
@@ -202,44 +271,6 @@ sub _record_inspect_callback {
   return $record;
 }
 
-
-sub get_delay {
-  my $self       = shift;
-  my $records    = $self->{records};
-  my $delay_data = [];
-  for my $record (@$records){
-    if ($record->{delay_flg}){
-      push @$delay_data,$record;
-    }
-  }
-  return $delay_data;
-}
-
-sub get_stop {
-  my $self      = shift;
-  my $records   = $self->{records};
-  my $stop_data = [];
-
-  for my $record (@$records){
-    if ($record->{stop_flg}){
-      push @$stop_data,$record;
-    }
-  }
-  return $stop_data;
-}
-
-sub get_cancel {
-  my $self        = shift;
-  my $records     = $self->{parsed_records};
-  my $cancel_data = [];
-
-  for my $record (@$records){
-    if ($record->{cancel_flg}){
-      push @$cancel_data,$record;
-    }
-  }
-  return $cancel_data;
-}
 
 1;
 
