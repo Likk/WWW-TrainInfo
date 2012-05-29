@@ -43,23 +43,60 @@ use utf8;
 use Encode;
 use WWW::TrainInfo::Plugin;
 
-our $VERSION = '0.01';
+=head1  Package::Global::Variable
+
+=over
+
+=item B<VERSION>
+
+this package version.
+
+=cut
+
+our $VERSION   = '0.01';
+
+=back
+
+=head1 CONSTRUCTOR AND STARTUP
+
+=head2 new
+
+Creates and returns a new WWW::TrainInfo object.:
+
+=cut
 
 sub new {
   my $class = shift;
   my %args  = @_;
   my $self  = bless { %args }, $class;
-  $self->plugin_load;
+  $self->_plugin_load;
   return $self;
 }
 
-sub plugin_load {
+=head1 ACCESSOR
+
+=head1 is_got
+
+accessor for is_got at local variable.
+
+=cut
+
+sub is_got {
   my $self = shift;
-  my $plugins = $self->{load_plugins};
-  for my $plugin (@$plugins) {
-    $self->{$plugin} = plugin($plugin);
+  if(defined $_[0] and
+     $_[0] =~ m{^(0|1)}){
+     $self->{is_got} = $_[0];
   }
+  return $self->{is_got};
 }
+
+=head1 METHODS
+
+=head2 get_info
+
+get train information from plugin.
+
+=cut
 
 sub get_info {
   my $self = shift;
@@ -70,11 +107,34 @@ sub get_info {
 
 }
 
+=head2 notice
+
+show notice information at all plugin.
+
+=cut
+
 sub notice {
   my $self    = shift;
+  Carp::croak('this method is useble after get_info method.') unless $self->is_got;
   my $plugins = $self->{load_plugins};
   return map { $self->{$_}->{records} } @$plugins
 }
+
+=head2 delay
+=head2 stop
+=head2 cancel
+
+those methods are show-able some information.
+
+=cut
+
+=begin comment
+
+create delay,stop and cancel method.
+
+=end comment
+
+=cut
 
 for my $state (qw/delay stop cancel/) {
   my $coderef = sub {
@@ -93,6 +153,27 @@ for my $state (qw/delay stop cancel/) {
     *{"WWW::TrainInfo::notice_${state}"} = $coderef;
   }
 }
+
+
+=head1 PRIVATE METHODS
+
+=over
+
+=item B<_plugin_load>
+
+=cut
+
+sub _plugin_load {
+  my $self = shift;
+  my $plugins = $self->{load_plugins};
+  for my $plugin (@$plugins) {
+    $self->{$plugin} = plugin($plugin);
+  }
+}
+
+=back
+
+=cut
 
 q{
       ====        ________                ___________
