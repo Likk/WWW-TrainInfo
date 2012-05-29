@@ -25,8 +25,8 @@ use warnings;
 use utf8;
 use UNIVERSAL::require;
 use WWW::Mechanize;
-use Time::HiRes;
 use parent 'Class::Singleton';
+use Time::Piece ();
 
 our @exporter = qw/mech/;
 
@@ -40,9 +40,21 @@ use or create WWW::Mechanize
 
 sub mech {
   my $self = shift;
-  $self->{mech} = WWW::Mechanize->new( agent => q{Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 }. Time::HiRes::time ) unless ($self->{mech});
+  $self->{mech} = WWW::Mechanize->new( agent => q{Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 }) unless ($self->{mech});
   return $self->{mech};
 
+}
+
+=head2 now
+
+load or create Time::Piece
+
+=cut
+
+sub now {
+  my $self = shift;
+  $self->{now} = Time::Piece::localtime() unless ($self->{now});
+  return $self->{now}
 }
 
 =head2 export
