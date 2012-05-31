@@ -81,7 +81,6 @@ sub get_info {
   my $self    = shift;
   my $area   = $self->{area};
   my $mech   = $self->{mech};
-  warn $mech->agent;
   my $records = [];
   for my $row (@$area){
     my $res        = $mech->get("@{[$BASE_URL]}/@{[$AREA_DATA->{$row}->{'sub_url'}]}");
@@ -229,7 +228,7 @@ sub _record_inspect_callback {
 
         #列車進行方向 片方向向きでのみの遅延/運休/見合わせなどのケース
         if($description =~ m{影響で、(?:一部(?:の)?)?(上下(線|列車)|上り|下り|北行|南行|(内・外|[^・]外|内)回り|(.*)?(方面)?行き)(の|で|に|電車(で|に|の))}){
-          $record->{description} = $1;
+          $record->{direction} = $1;
         }
 
         #遅延：         遅れて入るけど動いてはいる。
