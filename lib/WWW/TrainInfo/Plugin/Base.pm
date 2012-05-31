@@ -24,6 +24,7 @@ use warnings;
 use Time::Piece 1.20 ();
 use Web::Scraper;
 use WWW::TrainInfo::Util;
+use WWW::TrainInfo::Line;
 
 our $VERSION = '0.1';
 our $abstruct_methods = [qw/

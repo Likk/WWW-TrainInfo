@@ -104,7 +104,7 @@ sub get_delay {
   my $records    = $self->{records};
   my $delay_data = [];
   for my $record (@$records){
-    if ($record->{delay_flg}){
+    if ($record->is_delay){
       push @$delay_data,$record;
     }
   }
@@ -123,7 +123,7 @@ sub get_stop {
   my $stop_data = [];
 
   for my $record (@$records){
-    if ($record->{stop_flg}){
+    if ($record->is_stop){
       push @$stop_data,$record;
     }
   }
@@ -142,7 +142,7 @@ sub get_cancel {
   my $cancel_data = [];
 
   for my $record (@$records){
-    if ($record->{cancel_flg}){
+    if ($record->is_cancel){
       push @$cancel_data,$record;
     }
   }
@@ -173,7 +173,9 @@ sub _inspect {
       #配信情報を一軒ずつ取り出しながら、中身を加工する
       my @records_wk = map { $self->_record_inspect_callback($_, $area) }
         ($text =~ m{(?:.*?)(?:\d{4}年\d{1,2}月\d{1,2}日\d{1,2}時\d{1,2}分 配信?)(?:.*?。)}g);
-      push @$records, @records_wk;
+      for(@records_wk){
+        push @$records, WWW::TrainInfo::Line->new(%{$_});
+      }
   }
   else {
       #平常通りのアナウンスが不要ならreturn.
@@ -185,7 +187,7 @@ sub _inspect {
         area        => $AREA_DATA->{$area}->{name},
         description => $text,
       };
-      push @$records,$record_wk;
+      push @$records,WWW::TrainInfo::Line->new(%$record_wk);
 
   }
   $records;
@@ -218,11 +220,11 @@ sub _record_inspect_callback {
         #路線名・名称
         if($description =~ m/^\s*(.*?(.*線.*|ライン|車|.*」))+は、/){
           my $line_name = $1;
-          $record->{line_name}   = $line_name;
+          $record->{name}   = $line_name;
 
           #本日発車時(寝台特急用)
           if($line_name =~ m/本日(.*?)発車の/){
-            $record->{today_flg} = 1;
+            $record->{today_flag} = 1;
           }
         }
 
@@ -239,12 +241,12 @@ sub _record_inspect_callback {
 
         #遅延しているか
         if($description =~ m{遅れ(と|がでています)}){
-          $record->{delay_flg} = 1;
+          $record->{delay_flag} = 1;
         }
 
         #運転見合わせなのか
         if($description =~ m{運転を見合わせ(てい)?ます}){
-          $record->{stop_flg} = 1;
+          $record->{stop_flag} = 1;
         }
 
         #運休するのか
@@ -254,7 +256,7 @@ sub _record_inspect_callback {
 
         #一部だけか
         if($description =~ m{一部列車が}){
-          $record->{not_all_flg} = 1;
+          $record->{not_all_flag} = 1;
         }
 
         #どうしてそうなったか。
