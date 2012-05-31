@@ -26,7 +26,7 @@ use utf8;
 use UNIVERSAL::require;
 use WWW::Mechanize;
 use parent 'Class::Singleton';
-use Time::Piece ();
+use Time::Piece 1.20 ();
 
 our @exporter = qw/mech/;
 

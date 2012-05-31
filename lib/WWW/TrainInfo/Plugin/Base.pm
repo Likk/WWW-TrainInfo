@@ -21,7 +21,7 @@ WWW::TrainInfo::Plugin::Base is Basic module for plugins at WWW::TrainInfo.
 
 use strict;
 use warnings;
-use Time::Piece ();
+use Time::Piece 1.20 ();
 use Web::Scraper;
 use WWW::TrainInfo::Util;
 
