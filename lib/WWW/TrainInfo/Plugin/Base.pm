@@ -106,4 +106,4 @@ likkradyus E<lt>perl {at} li {dot} que {dot} jpE<gt>
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-=
+=cut

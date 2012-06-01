@@ -106,7 +106,7 @@ this line is nomal. (is not delay, stop and cancel.)
 =cut
 
 sub is_nomal  {
-  $self = shift;
+  my $self = shift;
   return (
     not $self->is_delay  and
     not $self->is_stop   and
@@ -125,14 +125,20 @@ sub is_nomal  {
 =item B<name>
 =item B<description>
 =item B<area>
+=item B<cause>
+=item B<section>
+=item B<direction>
 
 =back
 
 =cut
 
-sub name        { $_[1] ? $_[0]->{name} =        $_[1] : $_[0]->{name};        }
-sub description { $_[1] ? $_[0]->{description} = $_[1] : $_[0]->{description}; }
-sub area        { $_[1] ? $_[0]->{area} =        $_[1] : $_[0]->{area};        }
+sub name        { $_[1] ? $_[0]->{name}        = $_[1] : $_[0]->{name}        }
+sub description { $_[1] ? $_[0]->{description} = $_[1] : $_[0]->{description} }
+sub area        { $_[1] ? $_[0]->{area}        = $_[1] : $_[0]->{area}        || '' }
+sub cause       { $_[1] ? $_[0]->{cause}       = $_[1] : $_[0]->{cause}       || '' }
+sub section     { $_[1] ? $_[0]->{section}     = $_[1] : $_[0]->{section}     || '' }
+sub direction   { $_[1] ? $_[0]->{direction}   = $_[1] : $_[0]->{direction}   || '' }
 
 =head1 AUTHOR
 
@@ -143,4 +149,3 @@ Likkradyus E<lt>perl {at} li {dot} que {dot} jpE<gt>
 WWW::TrainInfo
 
 =cut
-
