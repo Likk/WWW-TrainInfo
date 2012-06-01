@@ -29,9 +29,6 @@ use WWW::TrainInfo::Line;
 our $VERSION = '0.1';
 our $abstruct_methods = [qw/
 get_info
-get_delay
-get_stop
-get_cancel
 _parce
 _inspect
 _record_inspect_callback
@@ -55,20 +52,44 @@ sub new {
 }
 
 =head2 get_info
-=head2 get_delay
-=head2 get_stop
-=head2 get_cancel
 
-those methods are abstract methods.
+this method is abstract methods.
 
 =cut
-
 
 for my $method (@$abstruct_methods) {
   my $method_ref = sub { Carp::croak ('this method is abstract') };
   {
     no strict 'refs';
     *{"WWW::TrainInfo::Plugin::Base::${method}"} = $method_ref;
+  }
+}
+
+
+=head2 get_delay
+=head2 get_stop
+=head2 get_cancel
+
+show delay, stop, cancel information.
+
+=cut
+
+for my $name (qw/delay stop cancel/){
+  my $method_ref = sub {
+    my $self        = shift;
+    my $records     = $self->{records};
+    my $delay_data  = [];
+    my $method_name = "is_${name}";
+    for my $record (@$records){
+      if ($record->$method_name){
+        push @$delay_data,$record;
+      }
+    }
+    return $delay_data;
+  };
+  {
+    no strict 'refs';
+    *{"WWW::TrainInfo::Plugin::Base::get_${name}"} = $method_ref;
   }
 }
 

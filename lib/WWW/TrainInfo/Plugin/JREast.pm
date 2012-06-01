@@ -93,63 +93,6 @@ sub get_info {
   $self->{records} = $records;
 }
 
-=head2 get_delay
-
-show delay information.
-
-=cut
-
-sub get_delay {
-  my $self       = shift;
-  my $records    = $self->{records};
-  my $delay_data = [];
-  for my $record (@$records){
-    if ($record->is_delay){
-      push @$delay_data,$record;
-    }
-  }
-  return $delay_data;
-}
-
-=head2 get_stop
-
-show stop information.
-
-=cut
-
-sub get_stop {
-  my $self      = shift;
-  my $records   = $self->{records};
-  my $stop_data = [];
-
-  for my $record (@$records){
-    if ($record->is_stop){
-      push @$stop_data,$record;
-    }
-  }
-  return $stop_data;
-}
-
-=head2 get_cancel
-
-show cancel information.
-
-=cut
-
-sub get_cancel {
-  my $self        = shift;
-  my $records     = $self->{parsed_records};
-  my $cancel_data = [];
-
-  for my $record (@$records){
-    if ($record->is_cancel){
-      push @$cancel_data,$record;
-    }
-  }
-  return $cancel_data;
-}
-
-
 sub _parse {
   my $self = shift;
   my $html = shift;

@@ -99,14 +99,40 @@ sub is_delay  { shift->{delay_flag}  ? 1 : 0 }
 sub is_stop   { shift->{stop_flag}   ? 1 : 0 }
 sub is_cancel { shift->{cancel_flag} ? 1 : 0 }
 
-=head2 name
+=head2 is_nomal
 
-accessor for this name.
+this line is nomal. (is not delay, stop and cancel.)
 
 =cut
 
-sub name     { $_[1] ? $_[0]->{name} = $_[1] : $_[0]->{name}; }
+sub is_nomal  {
+  $self = shift;
+  return (
+    not $self->is_delay  and
+    not $self->is_stop   and
+    not $self->is_cancel and
+    defined $self->{nomal_flag} and
+    $self->{nomal_flag} == 1
+  ) ?
+    1:
+    0;
+}
 
+=head1 ACCESSOR
+
+=over
+
+=item B<name>
+=item B<description>
+=item B<area>
+
+=back
+
+=cut
+
+sub name        { $_[1] ? $_[0]->{name} =        $_[1] : $_[0]->{name};        }
+sub description { $_[1] ? $_[0]->{description} = $_[1] : $_[0]->{description}; }
+sub area        { $_[1] ? $_[0]->{area} =        $_[1] : $_[0]->{area};        }
 
 =head1 AUTHOR
 
