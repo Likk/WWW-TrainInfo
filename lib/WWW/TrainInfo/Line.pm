@@ -95,9 +95,9 @@ is this line has delay, stop or cancel news?
 
 =cut
 
-sub is_delay { shift->{delay_flag}  ? 1 : 0 }
-sub is_stop  { shift->{stop_flag}   ? 1 : 0 }
-sub is_canel { shift->{cancel_flag} ? 1 : 0 }
+sub is_delay  { shift->{delay_flag}  ? 1 : 0 }
+sub is_stop   { shift->{stop_flag}   ? 1 : 0 }
+sub is_cancel { shift->{cancel_flag} ? 1 : 0 }
 
 =head2 name
 
