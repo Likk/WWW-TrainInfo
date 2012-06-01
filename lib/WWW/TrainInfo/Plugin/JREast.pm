@@ -125,8 +125,9 @@ sub _inspect {
       return if $self->{notify_no_delay} == 0;
       #必要なら、現在の時刻で平常の情報をセット
       my $record_wk = {
+        name        => 'all-lines',
         date        => Time::Piece::localtime(),
-        nomal_flg   => 1,
+        normal_flg  => 1,
         area        => $AREA_DATA->{$area}->{name},
         description => $text,
       };

@@ -21,7 +21,7 @@ subtest 'basic test' => sub {
   is $w->{delay_flag}, 1;
   ok $w->is_delay;
   isnt $w->is_stop, 1;
-  isnt $w->is_canel, 1;
+  isnt $w->is_cancel, 1;
 };
 
 done_testing();

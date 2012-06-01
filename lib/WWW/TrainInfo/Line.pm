@@ -89,7 +89,7 @@ sub new {
 
 =head2 is_delay
 =head2 is_stop
-=head2 is_canel
+=head2 is_cancel
 
 is this line has delay, stop or cancel news?
 
@@ -99,19 +99,19 @@ sub is_delay  { shift->{delay_flag}  ? 1 : 0 }
 sub is_stop   { shift->{stop_flag}   ? 1 : 0 }
 sub is_cancel { shift->{cancel_flag} ? 1 : 0 }
 
-=head2 is_nomal
+=head2 is_normal
 
-this line is nomal. (is not delay, stop and cancel.)
+this line is normal. (is not delay, stop and cancel.)
 
 =cut
 
-sub is_nomal  {
+sub is_normal {
   my $self = shift;
   return (
     not $self->is_delay  and
     not $self->is_stop   and
     not $self->is_cancel and
-    defined $self->{nomal_flag} and
+    defined $self->{normal_flag} and
     $self->{nomal_flag} == 1
   ) ?
     1:
