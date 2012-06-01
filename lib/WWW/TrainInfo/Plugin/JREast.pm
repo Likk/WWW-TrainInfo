@@ -81,16 +81,10 @@ sub get_info {
   my $self    = shift;
   my $area   = $self->{area};
   my $mech   = $self->{mech};
-  my $records = [];
   for my $row (@$area){
     my $res        = $mech->get("@{[$BASE_URL]}/@{[$AREA_DATA->{$row}->{'sub_url'}]}");
     my $records_wk = $self->_inspect($self->_parse($res->decoded_content), $row);
-    if(ref    $records_wk eq 'ARRAY' and
-       scalar $records_wk > 0){
-      push @$records, @$records_wk;
-    }
   }
-  $self->{records} = $records;
 }
 
 sub _parse {
@@ -108,7 +102,6 @@ sub _inspect {
   my $self = shift;
   my $text = shift;
   my $area = shift;
-  my $records = [];
 
   if($text =~ /^(.*)(\d{4}年\d{1,2}月\d{1,2}日\d{1,2}時\d{1,2}分\s配信)(.*。?)(\s)*/){
   #配信情報がある
@@ -117,7 +110,7 @@ sub _inspect {
       my @records_wk = map { $self->_record_inspect_callback($_, $area) }
         ($text =~ m{(?:.*?)(?:\d{4}年\d{1,2}月\d{1,2}日\d{1,2}時\d{1,2}分 配信?)(?:.*?。)}g);
       for(@records_wk){
-        push @$records, WWW::TrainInfo::Line->new(%{$_});
+        $self->add_record(%$_);
       }
   }
   else {
@@ -131,10 +124,8 @@ sub _inspect {
         area        => $AREA_DATA->{$area}->{name},
         description => $text,
       };
-      push @$records,WWW::TrainInfo::Line->new(%$record_wk);
-
+      $self->add_record(%$record_wk);
   }
-  $records;
 }
 
 sub _record_inspect_callback {

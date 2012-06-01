@@ -48,6 +48,7 @@ sub new {
   my $self   = bless { %h },$class;
   my ($pkg,) = caller(0);
   $self->{mech} = $pkg->mech;
+  $self->{records} = [];
   return $self;
 }
 
@@ -77,7 +78,7 @@ show delay, stop, cancel information.
 for my $name (qw/delay stop cancel/){
   my $method_ref = sub {
     my $self        = shift;
-    my $records     = $self->{records};
+    my $records     = $self->records;
     my $delay_data  = [];
     my $method_name = "is_${name}";
     for my $record (@$records){
@@ -91,6 +92,29 @@ for my $name (qw/delay stop cancel/){
     no strict 'refs';
     *{"WWW::TrainInfo::Plugin::Base::get_${name}"} = $method_ref;
   }
+}
+
+=head2 records
+
+it is getter for records.
+
+=cut
+
+sub records { shift->{records} || [] }
+
+=head2 add_record
+
+add line information to records.
+
+=cut
+
+sub add_record {
+  my $self = shift;
+  my %args = @_;
+  my $records = $self->records;
+  my $line = WWW::TrainInfo::Line->new( %args );
+  push @$records, $line;
+  $self->{records} = $records;
 }
 
 1;
