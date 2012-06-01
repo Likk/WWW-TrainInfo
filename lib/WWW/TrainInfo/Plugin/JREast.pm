@@ -251,7 +251,7 @@ sub _record_inspect_callback {
 
         #運休するのか
         if($description =~ m{運休とな(ってい|り)ます。}){
-          $record->{cancellation} = 1;
+          $record->{cancel_flag} = 1;
         }
 
         #一部だけか

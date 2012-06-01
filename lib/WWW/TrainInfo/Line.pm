@@ -66,19 +66,19 @@ sub new {
   my $args  = {
     validate(@_ ,
       {
-        date        => { isa   => 'Time::Piece' },
-        name        => { type  => SCALAR },
-        description => { type  => SCALAR },
-        area        => { type  => SCALAR,      optional => 1}, #エリア
-        delay_flag  => { regex => qr/^(0|1)$/, optional => 1}, #遅延
-        stop_flag   => { regex => qr/^(0|1)$/, optional => 1}, #見合わせ
-        cancel_flag => { regex => qr/^(0|1)$/, optional => 1}, #運休
-        nomal_flag  => { regex => qr/^(0|1)$/, optional => 1}, #通常
-        cause       => { type  => SCALAR,      optional => 1}, #理由
-        today_flag  => { regex => qr/^(0|1)$/, optional => 1}, #本日発車
-        not_all_flg => { regex => qr/^(0|1)$/, optional => 1}, #一部列車
-        section     => { type  => SCALAR,      optional => 1}, #一部区間
-        direction   => { type  => SCALAR,      optional => 1}, #進行方向
+        date         => { isa   => 'Time::Piece' },
+        name         => { type  => SCALAR },
+        description  => { type  => SCALAR },
+        area         => { type  => SCALAR,      optional => 1}, #エリア
+        delay_flag   => { regex => qr/^(0|1)$/, optional => 1}, #遅延
+        stop_flag    => { regex => qr/^(0|1)$/, optional => 1}, #見合わせ
+        cancel_flag  => { regex => qr/^(0|1)$/, optional => 1}, #運休
+        nomal_flag   => { regex => qr/^(0|1)$/, optional => 1}, #通常
+        cause        => { type  => SCALAR,      optional => 1}, #理由
+        today_flag   => { regex => qr/^(0|1)$/, optional => 1}, #本日発車
+        not_all_flag => { regex => qr/^(0|1)$/, optional => 1}, #一部列車
+        section      => { type  => SCALAR,      optional => 1}, #一部区間
+        direction    => { type  => SCALAR,      optional => 1}, #進行方向
       },
     )
   };
@@ -98,6 +98,15 @@ is this line has delay, stop or cancel news?
 sub is_delay { shift->{delay_flag}  ? 1 : 0 }
 sub is_stop  { shift->{stop_flag}   ? 1 : 0 }
 sub is_canel { shift->{cancel_flag} ? 1 : 0 }
+
+=head2 name
+
+accessor for this name.
+
+=cut
+
+sub name     { $_[1] ? $_[0]->{name} = $_[1] : $_[0]->{name}; }
+
 
 =head1 AUTHOR
 
