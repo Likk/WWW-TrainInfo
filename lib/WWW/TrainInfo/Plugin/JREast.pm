@@ -91,7 +91,7 @@ sub _parse {
   my $html = shift;
 
   my $scraper = scraper {
-    process "table#TblInfo",  description => 'TEXT';
+    process '//table[@id="TblInfo"]',  description => 'TEXT';
     result 'description';
   };
   return $scraper->scrape($html);
@@ -116,10 +116,11 @@ sub _inspect {
       #平常通りのアナウンスが不要ならreturn.
       return if $self->{notify_no_delay} == 0;
       #必要なら、現在の時刻で平常の情報をセット
+      my $now = Time::Piece::localtime();
       my $record_wk = {
         name        => 'all-lines',
-        date        => Time::Piece::localtime(),
-        normal_flg  => 1,
+        date        => $now,
+        normal_flag => 1,
         area        => $AREA_DATA->{$area}->{name},
         description => $text,
       };

@@ -73,7 +73,7 @@ sub new {
         delay_flag   => { regex => qr/^(0|1)$/, optional => 1}, #遅延
         stop_flag    => { regex => qr/^(0|1)$/, optional => 1}, #見合わせ
         cancel_flag  => { regex => qr/^(0|1)$/, optional => 1}, #運休
-        nomal_flag   => { regex => qr/^(0|1)$/, optional => 1}, #通常
+        normal_flag  => { regex => qr/^(0|1)$/, optional => 1}, #通常
         cause        => { type  => SCALAR,      optional => 1}, #理由
         today_flag   => { regex => qr/^(0|1)$/, optional => 1}, #本日発車
         not_all_flag => { regex => qr/^(0|1)$/, optional => 1}, #一部列車
@@ -112,7 +112,7 @@ sub is_normal {
     not $self->is_stop   and
     not $self->is_cancel and
     defined $self->{normal_flag} and
-    $self->{nomal_flag} == 1
+    $self->{normal_flag} == 1
   ) ?
     1:
     0;
