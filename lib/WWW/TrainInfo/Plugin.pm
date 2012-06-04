@@ -17,7 +17,8 @@ WWW::TrainInfo::Plugin is a plugin loader for WWW::TrainInfo
 
 use strict;
 use warnings;
-use UNIVERSAL::require;
+use Class::Load;
+
 use WWW::TrainInfo::Util;
 
 our $container = WWW::TrainInfo::Util->instance;
@@ -37,8 +38,8 @@ sub import {
   my $plugin_loader = sub {
     my $name = shift;
     my $module = "WWW::TrainInfo::Plugin\::$name";
+    Class::Load::load_class("WWW::TrainInfo::Plugin::JREast") or die;
     _contaier_methods($module);
-    $module->require or die $@;
     my $pkg = $module->new();
     return $pkg;
   };
