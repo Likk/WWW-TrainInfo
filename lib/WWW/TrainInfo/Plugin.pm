@@ -38,7 +38,7 @@ sub import {
   my $plugin_loader = sub {
     my $name = shift;
     my $module = "WWW::TrainInfo::Plugin\::$name";
-    Class::Load::load_class("WWW::TrainInfo::Plugin::JREast") or die;
+    Class::Load::load_class($module) or die;
     _contaier_methods($module);
     my $pkg = $module->new();
     return $pkg;
