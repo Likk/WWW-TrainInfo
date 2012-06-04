@@ -65,7 +65,6 @@ sub new {
   my $self  = __PACKAGE__->SUPER::new(@_);
   $self->{area}            ||= [qw(k s t S L)];
   $self->{notify_no_delay} ||= 0;
-  $self->{test_news}       ||= 0;
   return $self;
 }
 
