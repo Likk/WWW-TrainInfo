@@ -7,10 +7,10 @@ WWW::TrainInfo::Plugin::JREast - JR East train information for WWW::TrainInfo::P
 =head1 SYNOPSIS
 
   use WWW::TrainInfo::Plugin::JREast;
-  use YAML;
-  my $j = WWW::TrainInfo::Plugin::JREast->new;
-  $j->get_info;
-  warn YAML::Dump $j->get_delay;
+  my $t = WWW::TrainInfo::Plugin::JREast->new;
+  $t->get_info;
+  my $records = $t->records;
+  warn YAML::Dump $j->records;
 
 =head1 DESCRIPTION
 

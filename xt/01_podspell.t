@@ -9,6 +9,6 @@ likkradyus
 perl {at} li {dot} que {dot} jp
 WWW::TrainInfo
 STARTUP
-TokyoMetoro
+TokyoMetro
 plugins
 mech

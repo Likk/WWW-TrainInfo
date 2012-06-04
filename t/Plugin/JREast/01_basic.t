@@ -45,7 +45,7 @@ subtest 'basic test' => sub {
       else{
         TODO: {
           local $TODO = 'imprement me';
-          ok 0, 'is not delay, stop, cancel amd normal :'. $l->description;
+          ok 0, 'is not delay, stop, cancel amd normal :'. Encode::encode_utf8($l->description);
         }
       }
     }
