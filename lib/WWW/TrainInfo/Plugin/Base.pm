@@ -70,12 +70,13 @@ for my $method (@$abstruct_methods) {
 =head2 get_delay
 =head2 get_stop
 =head2 get_cancel
+=head2 get_confuse
 
-show delay, stop, cancel information.
+show delay, stop, cancel or confuse information.
 
 =cut
 
-for my $name (qw/delay stop cancel/){
+for my $name (qw/delay stop cancel confuse/){
   my $method_ref = sub {
     my $self        = shift;
     my $records     = $self->records;

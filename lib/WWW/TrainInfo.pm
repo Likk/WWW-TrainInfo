@@ -124,6 +124,8 @@ sub notice {
 =head2 notice_delay
 =head2 notice_stop
 =head2 notice_cancel
+=head2 notice_confuse
+
 
 those methods are show-able some information.
 
@@ -131,13 +133,13 @@ those methods are show-able some information.
 
 =begin comment
 
-create delay,stop and cancel method.
+create delay, stop, cancel and confuse method.
 
 =end comment
 
 =cut
 
-for my $state (qw/delay stop cancel/) {
+for my $state (qw/delay stop cancel confuse/) {
   my $coderef = sub {
     my $self    = shift;
     my $plugins = $self->{load_plugins};

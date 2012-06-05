@@ -127,7 +127,7 @@ sub _record_inspect_callback {
     $record->{confuse_flag} = 1;
   }
   if($description =~ m{(?:【.*?】)(.*のため、)}){
-    $record->{cause} = $2;
+    $record->{cause} = $1;
   }
 
   return $record;
