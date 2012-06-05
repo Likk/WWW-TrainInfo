@@ -91,6 +91,7 @@ sub new {
 =head2 is_delay
 =head2 is_stop
 =head2 is_cancel
+=head1 is_confuse
 
 is this line has delay, stop, cancel or confuse news?
 
