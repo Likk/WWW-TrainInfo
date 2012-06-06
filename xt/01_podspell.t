@@ -13,3 +13,4 @@ TokyoMetro
 plugins
 mech
 Toei
+Seibu
