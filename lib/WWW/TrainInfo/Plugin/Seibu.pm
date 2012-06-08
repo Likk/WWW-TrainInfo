@@ -127,12 +127,16 @@ sub _record_inspect_callback {
     if($description =~ m{、(.*の影響により)}){
       $record->{cause} = $1;
     }
+    if($description =~ m{西武鉄道各線は平常通り運行しております。$}){
+      $record->{normal_flag} = 1;
+      $record->{name}        = '西武鉄道各線';
+    }
   }
-  elsif($description eq '現在、１５分以上の遅延はありません。'){
+  elsif($description =~ m{西武鉄道各線は平常通り運行しております。$}){
     my $t = Time::Piece::localtime();
-    $record->{date}       = $t;
-    $record->{nomal_flag} = 1;
-    $record->{name}       = '西武鉄道各線';
+    $record->{date}        = $t;
+    $record->{normal_flag} = 1;
+    $record->{name}        = '西武鉄道各線';
   }
   else{
     Carp::carp($description);
