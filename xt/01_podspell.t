@@ -14,3 +14,4 @@ plugins
 mech
 Toei
 Seibu
+Keio
