@@ -29,8 +29,7 @@ use Encode;
 use Web::Scraper;
 
 our $VERSION = '0.2';
-our $BASE_URL = "http://www.kotsu.metro.tokyo.jp";
-our $INFO_PATH = "subway/schedule/index.html";
+our $INFO_PATH = "http://www.kotsu.metro.tokyo.jp/subway/schedule/index.html";
 
 =head1 CONSTRUCTOR AND STARTUP
 
@@ -59,7 +58,7 @@ read train information.
 sub get_info {
   my $self = shift;
   my $mech = $self->mech;
-  my $res  = $mech->get("@{[$BASE_URL]}/@{[$INFO_PATH]}");
+  my $res  = $mech->get($INFO_PATH);
   $self->_inspect($self->_parse($res->decoded_content));
   return 1;
 }

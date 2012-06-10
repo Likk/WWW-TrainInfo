@@ -27,7 +27,6 @@ use Web::Scraper;
 use Encode;
 
 our $VERSION = '0.1';
-our $SITE_URL = "http://www.jreast.co.jp/";
 our $BASE_URL = "http://traininfo.jreast.co.jp/train_info";
 our $AREA_DATA = {
   'k' => {
