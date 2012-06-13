@@ -107,7 +107,7 @@ sub _record_inspect_callback {
   $record->{date}        = $t;
   my $name               = $data->{name};
 
-  $name                  =~ s{:}{};
+  $name                  =~ s{：}{};
   $name                  = '都営'. $name;
   $record->{name}        = $name;
   my $description        = $data->{description};
