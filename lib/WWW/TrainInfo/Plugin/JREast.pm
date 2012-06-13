@@ -202,6 +202,12 @@ sub _record_inspect_callback {
         if($description =~ m{(?:.*)(?:[。、])((.*)～(.*)(駅間))[はでの]}){
           $record->{section} = $1;
         }
+
+        #直通運転中止
+        if($description =~ m{(?:.*)?、(.*)?への直通運転を中止しています。}){
+          $record->{not_through_flag} = 1;
+          $record->{not_through_name} = $1;
+        }
   }
   return $record;
 }

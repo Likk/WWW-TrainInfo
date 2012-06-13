@@ -42,6 +42,11 @@ subtest 'basic test' => sub {
       elsif($l->is_normal){
         like $l->description, qr/現在、平常通り運転しています。/, 'normal ok';
       }
+      elsif($l->{not_through_flag}){
+        #$1を取りたいので、likeを使わない
+        ok $l->description =~ m/(?:.*)?、(.*)?への直通運転を中止しています。/, 'not_through ok';
+        is $l->{not_through_name}, $1,                                         'not_through_name ok';
+      }
       else{
         TODO: {
           local $TODO = 'imprement me';

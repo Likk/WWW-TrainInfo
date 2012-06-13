@@ -66,20 +66,22 @@ sub new {
   my $args  = {
     validate(@_ ,
       {
-        date         => { isa   => 'Time::Piece' },
-        name         => { type  => SCALAR },
-        description  => { type  => SCALAR },
-        area         => { type  => SCALAR,      optional => 1}, #エリア
-        delay_flag   => { regex => qr/^(0|1)$/, optional => 1}, #遅延
-        stop_flag    => { regex => qr/^(0|1)$/, optional => 1}, #見合わせ
-        cancel_flag  => { regex => qr/^(0|1)$/, optional => 1}, #運休
-        confuse_flag => { regex => qr/^(0|1)$/, optional => 1}, #ダイヤ乱れ
-        normal_flag  => { regex => qr/^(0|1)$/, optional => 1}, #通常
-        cause        => { type  => SCALAR,      optional => 1}, #理由
-        today_flag   => { regex => qr/^(0|1)$/, optional => 1}, #本日発車
-        not_all_flag => { regex => qr/^(0|1)$/, optional => 1}, #一部列車
-        section      => { type  => SCALAR,      optional => 1}, #一部区間
-        direction    => { type  => SCALAR,      optional => 1}, #進行方向
+        date             => { isa   => 'Time::Piece' },
+        name             => { type  => SCALAR },
+        description      => { type  => SCALAR },
+        area             => { type  => SCALAR,      optional => 1}, #エリア
+        delay_flag       => { regex => qr/^(0|1)$/, optional => 1}, #遅延
+        stop_flag        => { regex => qr/^(0|1)$/, optional => 1}, #見合わせ
+        cancel_flag      => { regex => qr/^(0|1)$/, optional => 1}, #運休
+        confuse_flag     => { regex => qr/^(0|1)$/, optional => 1}, #ダイヤ乱れ
+        normal_flag      => { regex => qr/^(0|1)$/, optional => 1}, #通常
+        cause            => { type  => SCALAR,      optional => 1}, #理由
+        today_flag       => { regex => qr/^(0|1)$/, optional => 1}, #本日発車
+        not_all_flag     => { regex => qr/^(0|1)$/, optional => 1}, #一部列車
+        not_through_flag => { regex => qr/^(0|1)$/, optional => 1}, #直通運転中止
+        not_through_name => { type  => SCALAR,      optional => 1}, #直通運転中止対象
+        section          => { type  => SCALAR,      optional => 1}, #一部区間
+        direction        => { type  => SCALAR,      optional => 1}, #進行方向
       },
     )
   };
