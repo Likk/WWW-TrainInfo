@@ -15,3 +15,4 @@ mech
 Toei
 Seibu
 Keio
+Keikyu
