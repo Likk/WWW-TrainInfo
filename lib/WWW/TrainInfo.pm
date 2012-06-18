@@ -118,7 +118,11 @@ sub notice {
   my $self    = shift;
   Carp::croak('this method is useble after get_info method.') unless $self->is_got;
   my $plugins = $self->{load_plugins};
-  return map { $self->{$_}->{records} } @$plugins
+  my $records = [];
+  for(@$plugins){
+    push @$records, @{$self->{plugins}->{$_}->{records}};
+  }
+  return $records;
 }
 
 =head2 notice_delay
