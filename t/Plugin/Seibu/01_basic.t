@@ -40,7 +40,7 @@ subtest 'basic test' => sub {
         die 'no implement';
       }
       elsif($l->is_normal){
-        like $l->description, qr/西武鉄道各線は平常通り運行しております。$/, 'nomrmal ok';
+        like $l->description, qr/西武鉄道各線は平常通り運行しております。/, 'nomrmal ok';
       }
       else{
         TODO: {
